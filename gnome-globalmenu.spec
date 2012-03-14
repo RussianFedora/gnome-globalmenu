@@ -48,9 +48,11 @@ cp %{SOURCE100} .
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT GTK2_MODULES_DIR=%{_libdir}/gtk-2.0/modules GTK3_MODULES_DIR=%{_libdir}/gtk-3.0/modules GLIB_COMPILE_SCHEMAS=/bin/true install
 
-mv $RPM_BUILD_ROOT/usr/etc/profile.d/globalmenu.sh $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/globalmenu.sh
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
+mv $RPM_BUILD_ROOT/usr/etc/profile.d/globalmenu.sh $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/globalmenu.sh
+rm -rf $RPM_BUILD_ROOT/usr/etc/
 
-ln -sfv /%{_libdir}/gtk-2.0/modules/libglobalmenu-gtk2.so $RPM_BUILD_ROOT/%{_libdir}/gtk-2.0/modules/libglobalmenu-gtk.so
+ln -sfv /%{_libdir}/gtk-2.0/modules/libglobalmenu-gtk2.so $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/libglobalmenu-gtk.so
 sed -i 's/3\.2\.0/3\.2/' $RPM_BUILD_ROOT/usr/share/gnome-shell/extensions/GlobalMenu@globalmenu.org/metadata.json
 
 rm -f $RPM_BUILD_ROOT/%{_libdir}/gtk-2.0/modules/libglobalmenu-gtk2.la
